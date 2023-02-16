@@ -29,6 +29,12 @@ def option_to_model(level_number):
     return e
 
 
+@st.cache(allow_output_mutation=True)
+def Pageviews():
+    return []
+
+pageviews=Pageviews()
+pageviews.append('dummy')
 
 
 
@@ -49,6 +55,11 @@ if st.session_state["authentication_status"]:
     authenticator.logout("Logout","sidebar")
     st.sidebar.title(f'Welcome *{st.session_state["name"]}*')
     st.sidebar.text('version Jan 2023')
+
+    try:
+        st.sidebar.text('Page viewed = {} times.'.format(len(pageviews)))
+    except ValueError:
+        st.sidebar.text('Page viewed = {} times.'.format(1))
 
 
 
@@ -80,14 +91,5 @@ if st.session_state["authentication_status"] == None:
     st.warning('Please enter your username and password')
 
 
-@st.cache(allow_output_mutation=True)
-def Pageviews():
-    return []
 
-pageviews=Pageviews()
-pageviews.append('dummy')
 
-try:
-    st.markdown('Page viewed = {} times.'.format(len(pageviews)))
-except ValueError:
-    st.markdown('Page viewed = {} times.'.format(1))
